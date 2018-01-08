@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="'Warehouse | Shipment ' + ${shipmentId}">Электронный склад | Отгрузки</title>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/styles.css"
+          th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<nav th:replace="fragments :: navbar" sec:authorize="isAuthenticated()"></nav>
+<header th:replace="fragments :: .header"></header>
+
+<main class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="jumbotron identifier">
+                <a th:href="@{/shipment/all}">Назад на спикок отгрузок</a>
+            </h2>
+        </div>
+    </div>
+    <div class="row" th:if="${shipmentId != null}">
+        <div class="col-md-12 delete-options">
+        <p>Если вы удалите отгрузку, то не можете ее востонавить.</p>
+        <p th:text="'Are you sure you wish to delete Shipment #' + ${shipmentId} + '?'"></p>
+        <form th:action="@{/shipment/delete/} + ${shipmentId}" method="post">
+            <button type="submit">Удалить отгрузку</button>
+        </form>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Электронный склад | Сотрудник</title>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/styles.css"
+          th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<nav th:replace="fragments :: navbar" sec:authorize="isAuthenticated()"></nav>
+<header th:replace="fragments :: .header"></header>
+
+<main class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="jumbotron identifier">
+                All Employees
+            </h2>
+        </div>
+    </div>
+    <div class="row" th:if="${not #maps.isEmpty(employees)}">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Сотрудник Иден.</th>
+                    <th scope="col">Фамилия</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Информация о сотруднике</th>
+                    <th scope="col">Редактирование</th>
+                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Удалить сотрутника</th>
+                    <th scope="col">Изменить пароль</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="employee : ${employees}">
+                    <td th:text="${employee.value.employeeId}">Сотрудник Иден.</td>
+                    <td th:text="${employee.value.lastName}">Фамилия</td>
+                    <td th:text="${employee.value.firstName}">Имя</td>
+                    <td>
+                        <a th:href="@{/employee/show/} + ${employee.value.employeeId}">
+                            <span class="view-me">View</span>
+                        </a>
+                    </td>
+                    <td>
+                        <a th:if="${
+                        (#authentication.getAuthorities().toArray()[0].toString().equals('ROLE_ADMIN') and employee.value.role != 'ADMIN') or
+                        (#authentication.getAuthorities().toArray()[0].toString().equals('ROLE_MANAGER') and employee.value.role != 'ADMIN' and employee.value.role != 'MANAGER') or
+                        #authentication.getName().equals(employee.value.employeeId)
+                        }"
+                           th:href="@{/employee/edit/} + ${employee.value.employeeId}">
+                            <span class="view-me">Edit</span>
+                        </a>
+                    </td>
+                    <td sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a th:if="${#authentication.getName() != employee.value.employeeId}"
+                           th:href="@{/employee/remove/} + ${employee.value.employeeId}">
+                            <span class="view-me">Remove</span>
+                        </a>
+                    </td>
+                    <td>
+                        <a th:if="${
+                        (#authentication.getAuthorities().toArray()[0].toString().equals('ROLE_ADMIN') and employee.value.role != 'ADMIN') or
+                        (#authentication.getAuthorities().toArray()[0].toString().equals('ROLE_MANAGER') and employee.value.role != 'ADMIN' and employee.value.role != 'MANAGER')
+                        }"
+                           th:href="@{/employee/password_reset/} + ${employee.value.employeeId}">
+                            <span class="view-me">Reset</span>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row" th:if="${#maps.isEmpty(employees)}">
+        <h2 class="identifier">В данный момент нет сотрудника</h2>
+
+    </div>
+    <div class="row"  sec:authorize="hasRole('ROLE_ADMIN')">
+        <div class="col-md-12">
+            <div class="new-item">
+                <a th:href="@{/employee/new}" class="my-button">Новый сотрудник</a>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

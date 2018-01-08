@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="'Warehouse | Shipment ' + ${shipment.shipmentId}">Warehouse | Shipment</title>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/styles.css"
+          th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<nav th:replace="fragments :: navbar" sec:authorize="isAuthenticated()"></nav>
+<header th:replace="fragments :: .header"></header>
+
+<main class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="jumbotron identifier">
+                <a th:href="@{/shipment/all}">Назад на список отгрузокs</a>
+            </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Details</h2>
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-6 control-label">
+                        Отгрузка Иден.:
+                    </label>
+                    <div class="col-md-6">
+                        <p class="form-control-static" th:text="${shipment.shipmentId}">Отгрузка Иден.</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-6 control-label">
+                        Тип отгрузки:
+                    </label>
+                    <div class="col-md-6">
+                        <p class="form-control-static" th:text="${shipment.shipmentType}">Тип отгрузки</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-6 control-label">
+                        Дата изменения:
+                    </label>
+                    <div class="col-md-6">
+                        <p class="form-control-static" th:text="${shipment.updatedOn}">Дата изменение</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-6 control-label">
+                        Дата создания:
+                    </label>
+                    <div class="col-md-6">
+                        <p class="form-control-static" th:text="${shipment.createdOn}">Дата создания</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-8">
+
+            <h2>Product Lots</h2>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Отгрузка Иден.</th>
+                    <th>Склад редактирован</th>
+                    <th>Дата создания</th>
+                    <th sec:authorize="hasAnyRole('ADMIN','MANAGER')">Информация о продуктах</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="productLot : ${lots}">
+                    <span th:if="${productLot.value.quantity != 0}">
+                    <td th:text="${productLot.value.productId}">Продукта Иден.</td>
+                    <td th:text="${productLot.value.quantity}">количество</td>
+                    <td th:text="${productLot.value.updatedOn}">Дата изменения</td>
+                    <td sec:authorize="hasAnyRole('ADMIN','MANAGER')">
+                        <a href="show.html" th:href="@{/product/show/} + ${productLot.value.productId}">
+                            <span class="view-me">Посмотреть продукту</span>
+                        </a>
+                    </td>
+                    </span>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

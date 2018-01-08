@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Fragments</title>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/styles.css"
+          th:href="@{/css/styles.css}"/>
+</head>
+<body>
+
+<nav th:fragment="navbar" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <ul>
+            <li sec:authorize="isAnonymous()"><a th:href="@{/login}">Логин</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/shipment/all}">Список отгрузки</a></li>
+            <li sec:authorize="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')"><a th:href="@{/product/all}">Продукты</a></li>
+            <li sec:authorize="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')"><a th:href="@{/employee/all}">Сотрудники</a></li>
+            <li sec:authorize="isAuthenticated()" class="account"><a th:href="@{/account/show}">Мой аккаунт</a></li>
+            <li sec:authorize="isAuthenticated()" class="account"><a th:href="@{/logout}">Выход</a></li>
+        </ul>
+    </div>
+</nav>
+
+<header class="jumbotron frontdoor" th:fragment="frontdoor">
+    <div class="container">
+        <a sec:authorize="isAuthenticated()" th:href="@{/}"><h1 id="warehouse">Электронный склад</h1></a>
+        <a sec:authorize="isAnonymous()" th:href="@{/login}"><h1 id="warehouse">Электронный склад</h1></a>
+    </div>
+</header>
+
+<header class="header" th:fragment="header">
+    <div class="container">
+        <a sec:authorize="isAuthenticated()" th:href="@{/}"><h1 id="warehouse">Электронный склад</h1></a>
+        <a sec:authorize="isAnonymous()" th:href="@{/login}"><h1 id="warehouse">Электронный склад</h1></a>
+    </div>
+</header>
+
+<footer th:fragment="footer">
+
+</footer>
+
+</body>
+</html>
