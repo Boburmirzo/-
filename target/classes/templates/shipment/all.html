@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-      xmlns:dt="http://www.w3.org/1999/xhtml">
+      xmlns:dt="http://www.thymeleaf.org/dandelion/datatables"
+>
 <head>
     <meta charset="UTF-8"/>
     <title>Warehouse | Shipments</title>
     <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
-    <!--<script src="/static/js/jqueryScript.js"></script>-->
+    <script src="/static/js/jqueryScript.js"></script>
+    <script src="/static/js/filterbyDate.js"></script>
     <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
     <link rel="stylesheet" href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
           th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
     <link rel="stylesheet" href="../../static/css/styles.css"
           th:href="@{/css/styles.css}"/>
+
 </head>
 <body>
 <nav th:replace="fragments :: navbar" sec:authorize="isAuthenticated()"></nav>
 <header th:replace="fragments :: .header"></header>
+<!--<script>-->
+    <!--function initFilter() {-->
 
+    <!--}-->
+<!--</script>-->
 <main class="container">
     <div class="row">
         <div class="col-md-12">
@@ -27,15 +34,23 @@
     </div>
     <div class="row" th:if="${not #maps.isEmpty(shipments)}">
         <div class="col-md-12">
-            <!--<div style="margin-bottom:20px; padding:10px; background-color:#336699; color:white;">-->
-                <!--<p>Type some text to search the table for <strong>Отгузка Иден.</strong>, <strong>Дата создания</strong>, <strong>Дата редактирования</strong>, <strong>Tип</strong>:</p>-->
-                <!--<input class="form-control" id="inputFilter" type="text" placeholder="Поиск.." />-->
-            <!--</div>-->
-            <table id="customerTable" dt:table="true" class="table table-striped table-hover">
+            <div style="margin-bottom:20px; padding:10px; background-color:#336699; color:white;">
+                <p>Введите текст для поиска <strong>Отгузка Иден.</strong>, <strong>Дата создания</strong>, <strong>Дата редактирования</strong>, <strong>Tип</strong>:</p>
+                <input class="form-control" id="inputFilter" type="text" placeholder="Поиск.." />
+            </div>
+            <table id="shipmentTable" class="table table-striped table-hover" dt:table="true">
                 <thead>
                 <tr>
+                    <td>От:</td>
+                    <td><input type="text" id="min" name="min"/></td>
+                </tr>
+                <tr>
+                    <td>До:</td>
+                    <td><input type="text" id="max" name="max"/></td>
+                </tr>
+                <tr>
                     <th scope="col">Отгузка Иден.</th>
-                    <th scope="col" dt:filterable="true">Дата создания</th>
+                    <th scope="col" dt:filterable="true" >Дата создания</th>
                     <th scope="col">Дата редактирования</th>
                     <th scope="col">Tип</th>
                     <th scope="col">Информация о отгрузке</th>

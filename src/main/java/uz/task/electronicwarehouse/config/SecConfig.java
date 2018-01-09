@@ -51,9 +51,9 @@ public class SecConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/","/login", "/index","/logout_success").permitAll()
                 .and().authorizeRequests().antMatchers("/css/**").permitAll()
                 .and().authorizeRequests().antMatchers("/webjars/**").permitAll()
-                .and().authorizeRequests().antMatchers("/employee/**").permitAll()
-                .and().authorizeRequests().antMatchers("/product/**").permitAll()
-                .and().authorizeRequests().antMatchers("/shipment/**").permitAll()
+                .and().authorizeRequests().antMatchers("/employee/**").hasAnyRole("ADMIN", "MANAGER")
+                .and().authorizeRequests().antMatchers("/product/**").hasAnyRole("ADMIN", "MANAGER")
+                .and().authorizeRequests().antMatchers("/shipment/**").hasAnyRole("ADMIN", "MANAGER", "USER")
 
                 .and().authorizeRequests().antMatchers("/h2-console", "/h2-console/**").permitAll()
                 .and().authorizeRequests().antMatchers("/account/**").authenticated()

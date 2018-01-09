@@ -14,12 +14,12 @@ $(document).ready(function() {
 									'<td>' + shipment.value.shipmentType + '</td>' +
 								  '</tr>';
 				
-				$('#customerTable tbody').append(customerRow);
+				$('#shipmentTable tbody').append(customerRow);
 				
 	        });
 			
-			$( "#customerTable tbody tr:odd" ).addClass("info");
-			$( "#customerTable tbody tr:even" ).addClass("success");
+			$( "#shipmentTable tbody tr:odd" ).addClass("info");
+			$( "#shipmentTable tbody tr:even" ).addClass("success");
 		},
 		error : function(e) {
 			alert("ERROR: ", e);
@@ -30,7 +30,7 @@ $(document).ready(function() {
 	// do Filter on View
 	$("#inputFilter").on("keyup", function() {
 	    var inputValue = $(this).val().toLowerCase();
-	    $("#customerTable tr").filter(function() {
+	    $("#shipmentTable tr").filter(function() {
 	    	$(this).toggle($(this).text().toLowerCase().indexOf(inputValue) > -1)
 	    });
 	});

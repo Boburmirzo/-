@@ -69,7 +69,7 @@ public class ShipmentController {
         return "redirect:/shipment/all";
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
+//    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping("/all")
     public String listAll(Model model) {
         model.addAttribute("shipments", shipmentService.listAll());
